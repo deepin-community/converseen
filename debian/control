@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Laszlo Boszormenyi (GCS) <gcs@debian.org>
 Build-Depends: debhelper-compat (= 13), qtbase5-dev, qttools5-dev,
  libmagick++-dev, libmagickcore-dev, libmagickwand-dev, imagemagick, cmake
-Standards-Version: 4.7.0
+Standards-Version: 4.7.2
 Rules-Requires-Root: no
 Homepage: https://converseen.fasterland.net/
 
