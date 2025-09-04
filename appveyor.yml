@@ -3,9 +3,14 @@ skip_non_tags: true
 image: Visual Studio 2022
 environment:
   Qt5_INSTALL_DIR: C:\Qt\5.15.2\msvc2019
+  Qt6_INSTALL_DIR: C:\Qt\6.9.1\msvc2022_64
+install:
+  - pip install aqtinstall
+  - aqt install-qt windows desktop 6.9.1 win64_msvc2022_64 --outputdir C:\Qt
+
 build_script:
 - ps: |
-    $env:PATH += ";C:\Qt\5.15.2\msvc2019\bin"
+    $env:PATH += ";$env:Qt5_INSTALL_DIR\bin;$env:Qt6_INSTALL_DIR\bin"
 
     # Get latest version number from GitHub
     $gitTags = git ls-remote --sort="version:refname" --tags https://github.com/ImageMagick/ImageMagick.git
@@ -15,35 +20,64 @@ build_script:
 
     Write-Host "---`nLatest ImageMagick Version Found: $latestVersionNumber`n---"
 
-    Invoke-WebRequest -Uri https://imagemagick.org/archive/binaries/ImageMagick-$latestVersionNumber-Q16-HDRI-x86-dll.exe -OutFile ImageMagick-Installer.exe
+    # Download ImageMagick 32 bit and 64 bit
+    Invoke-WebRequest -Uri https://imagemagick.org/archive/binaries/ImageMagick-$latestVersionNumber-Q16-HDRI-x86-dll.exe -OutFile ImageMagick-Installer-32.exe
+    Invoke-WebRequest -Uri https://imagemagick.org/archive/binaries/ImageMagick-$latestVersionNumber-Q16-HDRI-x64-dll.exe -OutFile ImageMagick-Installer-64.exe
     
-    Start-Process -FilePath ".\ImageMagick-Installer.exe" -ArgumentList "/MERGETASKS=install_devel", "/VERYSILENT", "/DIR=C:\projects\ImageMagick" -NoNewWindow -Wait
+    Start-Process -FilePath ".\ImageMagick-Installer-32.exe" -ArgumentList "/MERGETASKS=install_devel", "/VERYSILENT", "/DIR=C:\projects\ImageMagick-32" -NoNewWindow -Wait
+    Start-Process -FilePath ".\ImageMagick-Installer-64.exe" -ArgumentList "/MERGETASKS=install_devel", "/VERYSILENT", "/DIR=C:\projects\ImageMagick-64" -NoNewWindow -Wait
     
 - cmd: >-
     call "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\VsDevCmd.bat"
 
+    cd C:\projects\converseen 
+
+    if exist build-qt5 rmdir /s /q build-qt5 
+    
+    mkdir build-qt5 
+    
+    cd build-qt5 
+
+    cmake -G "NMake Makefiles" -DCMAKE_BUILD_TYPE:STRING=Release -DImageMagick_EXECUTABLE_DIR="C:\projects\ImageMagick-32" ..
+    
+    nmake
+    
+    cpack -G ZIP -B package
+
+- cmd: >-
+    call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
+
     cd C:\projects\converseen
 
-    mkdir build
+    if exist build-qt6 rmdir /s /q build-qt6
+    
+    mkdir build-qt6
+    
+    cd build-qt6
 
-    cd build
-
-    cmake -G "NMake Makefiles" -DCMAKE_BUILD_TYPE:STRING=Release -DImageMagick_EXECUTABLE_DIR="C:\projects\ImageMagick" ..
-
+    cmake -G "NMake Makefiles" -DCMAKE_BUILD_TYPE:STRING=Release -DImageMagick_EXECUTABLE_DIR="C:\projects\ImageMagick-64" -DUSE_QT6=yes ..
+    
     nmake
-
+    
     cpack -B package
 
-    mkdir artifact
-
-    cp package/*.msi artifact/.
+- cmd: >-
+    cd C:\projects\converseen
     
-    cp package/*.zip artifact/.
+    mkdir artifact\qt5
+    
+    mkdir artifact\qt6
+
+    cp build-qt5/package/*.zip artifact/qt5/.
+    
+    cp build-qt6/package/*.msi artifact/qt6/.
+    
+    cp build-qt6/package/*.zip artifact/qt6/.
     
     7z a -tzip artifact.zip artifact/
 
 artifacts:
-- path: build/artifact.zip
+- path: artifact.zip
   name: artifact
 
 deploy:
