@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DialogMultipageEditor</class>
+ <widget class="QDialog" name="DialogMultipageEditor">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>897</width>
+    <height>426</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Import multipage document</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Check the pages or subimages you want to import</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTreeWidget" name="treeWidget">
+     <property name="selectionMode">
+      <enum>QAbstractItemView::ExtendedSelection</enum>
+     </property>
+     <property name="rootIsDecorated">
+      <bool>false</bool>
+     </property>
+     <attribute name="headerVisible">
+      <bool>true</bool>
+     </attribute>
+     <column>
+      <property name="text">
+       <string notr="true">Subpage</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Page</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Pixel size</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Density</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Depth</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelHelpPDF">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://converseen.fasterland.net/converseen-can-convert-pdf-as-image-files/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;How to enable the PDF conversion?&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="openExternalLinks">
+      <bool>true</bool>
+     </property>
+     <property name="textInteractionFlags">
+      <set>Qt::TextBrowserInteraction</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushCancel">
+       <property name="text">
+        <string>Cancel</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../resources.qrc">
+         <normaloff>:/Images/res/cancel.png</normaloff>:/Images/res/cancel.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushOk">
+       <property name="text">
+        <string>Import</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../resources.qrc">
+         <normaloff>:/Images/res/apply.png</normaloff>:/Images/res/apply.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+  <action name="actionCheck">
+   <property name="icon">
+    <iconset resource="../resources.qrc">
+     <normaloff>:/Images/res/apply.png</normaloff>:/Images/res/apply.png</iconset>
+   </property>
+   <property name="text">
+    <string>Check</string>
+   </property>
+  </action>
+  <action name="actionCheckAll">
+   <property name="icon">
+    <iconset resource="../resources.qrc">
+     <normaloff>:/Images/res/apply.png</normaloff>:/Images/res/apply.png</iconset>
+   </property>
+   <property name="text">
+    <string>Check all</string>
+   </property>
+  </action>
+  <action name="actionUncheck">
+   <property name="icon">
+    <iconset resource="../resources.qrc">
+     <normaloff>:/Images/res/adept_purge.png</normaloff>:/Images/res/adept_purge.png</iconset>
+   </property>
+   <property name="text">
+    <string>Uncheck</string>
+   </property>
+  </action>
+  <action name="actionUncheckAll">
+   <property name="icon">
+    <iconset resource="../resources.qrc">
+     <normaloff>:/Images/res/adept_purge.png</normaloff>:/Images/res/adept_purge.png</iconset>
+   </property>
+   <property name="text">
+    <string>Uncheck all</string>
+   </property>
+  </action>
+  <action name="actionHelp">
+   <property name="icon">
+    <iconset resource="../resources.qrc">
+     <normaloff>:/Images/res/help.png</normaloff>:/Images/res/help.png</iconset>
+   </property>
+   <property name="text">
+    <string>Help</string>
+   </property>
+   <property name="toolTip">
+    <string>Open online help</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="../resources.qrc"/>
+ </resources>
+ <connections/>
+</ui>

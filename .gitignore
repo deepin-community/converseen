@@ -1,0 +1,7 @@
+# ignore ALL .log files
+*.log
+*.qm
+*.user
+*.DS_Store
+converseen.pro.user
+build/
