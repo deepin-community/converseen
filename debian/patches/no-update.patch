@@ -1,0 +1,22 @@
+Description: Don't check upstream versions
+ Don't check new versions page due to privacy concerns.
+Forwarded: not-needed
+Author: Laszlo Boszormenyi (GCS) <gcs@debian.org>
+Bug-Debian: https://bugs.debian.org/761944
+Last-Update: 2023-08-15
+
+---
+
+--- converseen-0.8.5.orig/src/mainwindowimpl.cpp
++++ converseen-0.8.5/src/mainwindowimpl.cpp
+@@ -1190,8 +1190,8 @@ void MainWindowImpl::openPaypalLink()
+ 
+ void MainWindowImpl::checkForUpdates()
+ {
+-    UpdateChecker *up = new UpdateChecker();
+-    up->checkForUpdates();
++//    UpdateChecker *up = new UpdateChecker();
++//    up->checkForUpdates();
+ }
+ 
+ void MainWindowImpl::bugReport()

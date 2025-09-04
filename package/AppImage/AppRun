@@ -1,0 +1,27 @@
+#! /usr/bin/env bash
+
+# make sure errors in sourced scripts will cause this script to stop
+set -e
+
+this_dir="$(readlink -f "$(dirname "$0")")"
+
+# Set ImageMagick env
+export MAGICK_HOME="$this_dir"/"usr"
+export PATH="$MAGICK_HOME/bin:$PATH"
+export LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$MAGICK_HOME/lib"
+export MAGICK_CONFIGURE_PATH="$this_dir"/.config/ImageMagick
+
+# Set libheif plugins path 
+export LIBHEIF_PLUGIN_PATH="$MAGICK_HOME/lib/libheif/plugins"
+
+
+# Set Ghostscript env
+export GS_VERSION="9.55.0"
+export GS_LIB="$this_dir/usr/share/ghostscript/${GS_VERSION}/Resource/Init"
+export GS_FONTPATH="$this_dir/usr/share/ghostscript/${GS_VERSION}/Resource/Font"
+export GS_OPTIONS="-sGenericResourceDir=$this_dir/usr/share/ghostscript/${GS_VERSION}/Resource/ -sICCProfilesDir=$this_dir/usr/share/ghostscript/${GS_VERSION}/iccprofiles/"
+
+source "$this_dir"/apprun-hooks/"linuxdeploy-plugin-qt-hook.sh"
+
+exec "$this_dir"/AppRun.wrapped "$@"
+
